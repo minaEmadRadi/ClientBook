@@ -1,0 +1,86 @@
+<p-toast></p-toast>  <!-- This will display the toast messages -->
+
+<div class="container mt-5">
+  <!-- Button to Add Book -->
+  <button pButton label="Add Book" icon="pi pi-plus" class="p-button-primary" (click)="openAddDialog()"></button>
+
+<div  *ngIf="books.length > 0" class="table-container">
+ <!-- Table to List Books -->
+ <p-table  [value]="books" [paginator]="true" [rows]="4"  class="p-datatable-sm">
+  <ng-template pTemplate="header">
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Publish Year</th>
+        <th>Genre</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-book>
+      <tr >
+        <td>{{ book?.title }}</td>
+        <td>{{ book?.author }}</td>
+        <td>{{ book?.publishYear }}</td>
+        <td>{{ book?.genre }}</td>
+        <td>
+            <button pButton icon="pi pi-pencil" class="p-button-text" (click)="openEditDialog(book)"></button>
+            <button pButton icon="pi pi-trash" class="p-button-danger" (click)="deleteBook(book.id!)"></button>
+            </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+ 
+
+  <!-- Dialog to Add Book -->
+  <p-dialog [(visible)]="displayAddDialog" header="Add Book" [modal]="true" [closable]="false">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="title">Title</label>
+        <input pInputText id="title" [(ngModel)]="newBook.title" required />
+      </div>
+      <div class="p-field">
+        <label for="author">Author</label>
+        <input pInputText id="author" [(ngModel)]="newBook.author" required />
+      </div>
+      <div class="p-field">
+        <label for="publishYear">Publish Year</label>
+        <input pInputText id="publishYear" [(ngModel)]="newBook.publishYear" required />
+      </div>
+      <div class="p-field">
+        <label for="genre">Genre</label>
+        <input pInputText id="genre" [(ngModel)]="newBook.genre" required />
+      </div>
+    </div>
+    <p-footer>
+      <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="closeAddDialog()"></button>
+      <button pButton label="Add" icon="pi pi-check" (click)="addBook()" class="p-button-primary"></button>
+    </p-footer>
+  </p-dialog>
+
+  <!-- Dialog to Edit Book -->
+  <p-dialog [(visible)]="displayEditDialog" header="Edit Book" [modal]="true" [responsive]="true" [closable]="false">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="editTitle">Title</label>
+        <input pInputText id="editTitle" [(ngModel)]="editingBook.title" required />
+      </div>
+      <div class="p-field">
+        <label for="editAuthor">Author</label>
+        <input pInputText id="editAuthor" [(ngModel)]="editingBook.author" required />
+      </div>
+      <div class="p-field">
+        <label for="editPublishYear">Publish Year</label>
+        <input pInputText id="editPublishYear" [(ngModel)]="editingBook.publishYear" required />
+      </div>
+      <div class="p-field">
+        <label for="editGenre">Genre</label>
+        <input pInputText id="editGenre" [(ngModel)]="editingBook.genre" required />
+      </div>
+    </div>
+    <p-footer>
+      <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="closeEditDialog()"></button>
+      <button pButton label="Save" icon="pi pi-check" class="p-button-primary" (click)="updateBook(editingBook!)"></button>
+    </p-footer>
+  </p-dialog>
+</div>
